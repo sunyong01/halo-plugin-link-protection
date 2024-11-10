@@ -41,7 +41,12 @@ public class LinkProtectQiniuTimestamp {
         String encodePath = urlEncode(path);
         String sign = makeSign(linkProtectSetting.getAuthKeys(), encodePath, expirationTime);
         // 构建新的URL
-        return RawLink + "&" + linkProtectSetting.getParamFieldName() + "=" + sign + "&t="
+        //如果RawLink已经包含参数，就使用&连接新参数，否则使用?连接新参数
+        if (RawLink.contains("?")) {
+            return RawLink + "&" + linkProtectSetting.getParamFieldName() + "=" + sign + "&t="
+                + expirationTime;
+        }
+        return RawLink + "?" + linkProtectSetting.getParamFieldName() + "=" + sign + "&t="
             + expirationTime;
     }
 
