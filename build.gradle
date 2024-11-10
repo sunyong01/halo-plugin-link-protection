@@ -8,10 +8,10 @@ plugins {
 group 'run.halo.starter'
 sourceCompatibility = JavaVersion.VERSION_17
 
-node {
-    npmCommand = '/usr/local/bin/npm'
-    pnpmCommand = '/usr/local/bin/pnpm'
-}
+//node {
+//    npmCommand = '/usr/local/bin/npm'
+//    pnpmCommand = '/usr/local/bin/pnpm'
+//}
 repositories {
     mavenCentral()
     maven { url 'https://s01.oss.sonatype.org/content/repositories/releases' }
