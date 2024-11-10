@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id "com.github.node-gradle.node" version "7.0.2"
+    id "com.github.node-gradle.node" version "7.1.0"
     id "io.freefair.lombok" version "8.0.1"
     id "run.halo.plugin.devtools" version "0.2.0"
 }
@@ -8,6 +8,10 @@ plugins {
 group 'run.halo.starter'
 sourceCompatibility = JavaVersion.VERSION_17
 
+node {
+    npmCommand = '/usr/local/bin/npm'
+    pnpmCommand = '/usr/local/bin/pnpm'
+}
 repositories {
     mavenCentral()
     maven { url 'https://s01.oss.sonatype.org/content/repositories/releases' }
@@ -35,6 +39,11 @@ node {
     nodeProjectDir = file("${project.projectDir}/ui")
 }
 
+tasks.register('updateGrunt', Exec) {
+    String npmCommand = (Os.isFamily(Os.FAMILY_WINDOWS)) ? 'npm.cmd' : 'npm'
+    commandLine npmCommand, 'install'
+}
+
 tasks.register('buildFrontend', PnpmTask) {
     args = ['build']
     dependsOn('installDepsForUI')
@@ -53,4 +62,13 @@ build {
 
 halo {
     version = '2.20'
+    superAdminUsername = 'admin'
+    superAdminPassword = 'admin'
+    externalUrl = 'http://localhost:8090'
+    debug = true
+    docker {
+        // Windows 用户默认使用 npipe:////./pipe/docker_engine
+        url = 'unix:///var/run/docker.sock'
+        apiVersion = '1.42'
+    }
 }

@@ -1,0 +1,42 @@
+apiVersion: v1alpha1
+kind: Setting
+metadata:
+  name: link-protect-settings
+spec:
+  className: com.sunyong.imagebed.setting.LinkProtectSetting
+  forms:
+    - group: "basic"
+      label: 资源信息
+      formSchema:
+        - $formkit: text
+          name: protectedResourceScope
+          label: 保护资源范围
+          value: ".jpg,.jpeg,.bmp,.webp,.png,.gif"
+        - $formkit: text
+          name: resourceServiceAddress
+          label: 资源服务Base地址(构建Sign时将排除Path中的这部分)
+          value: ""
+        - $formkit: radio
+          name: enableTimestampAntiLeech
+          label: 开启时间戳防盗链
+          options:
+            - label: 是
+              value: true
+            - label: 否
+              value: false
+          value: false
+    - group: "timestamp_anti_leech"
+      label: 时间戳防盗链
+      formSchema:
+        - $formkit: text
+          name: expirationTimeMinutes
+          label: 过期时间(分钟)
+          value: "2"
+        - $formkit: text
+          name: authKeys
+          label: 鉴权密钥
+          value: ""
+        - $formkit: text
+          name: paramFieldName
+          label: Param字段名
+          value: "sign"
